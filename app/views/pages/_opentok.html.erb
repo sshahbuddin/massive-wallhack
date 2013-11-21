@@ -1,0 +1,32 @@
+<script type="text/javascript">
+  var apiKey    = "44452272";
+  var sessionId = "1_MX40NDQ1MjI3Mn5-VGh1IE5vdiAyMSAwOToyMToyMyBQU1QgMjAxM34wLjU1OTE4MzV-";
+  var token     = "T1==cGFydG5lcl9pZD00NDQ1MjI3MiZzZGtfdmVyc2lvbj10YnJ1YnktdGJyYi12MC45MS4yMDExLTAyLTE3JnNpZz05Njc2ZDVhNjMxY2Y2NGUwZGFiYmZiMjg4ZTQ2ODc2NzRmYjE1ZjMyOnJvbGU9cHVibGlzaGVyJnNlc3Npb25faWQ9MV9NWDQwTkRRMU1qSTNNbjUtVkdoMUlFNXZkaUF5TVNBd09Ub3lNVG95TXlCUVUxUWdNakF4TTM0d0xqVTFPVEU0TXpWLSZjcmVhdGVfdGltZT0xMzg1MDU0NDkzJm5vbmNlPTAuOTY0NDM5ODgwOTMyNDIyJmV4cGlyZV90aW1lPTEzODc2NDY0OTMmY29ubmVjdGlvbl9kYXRhPQ==";
+ 
+  function sessionConnectedHandler (event) {
+     session.publish( publisher );
+     subscribeToStreams(event.streams);
+  }
+  function subscribeToStreams(streams) {
+    for (var i = 0; i < streams.length; i++) {
+        var stream = streams[i];
+        if (stream.connection.connectionId 
+               != session.connection.connectionId) {
+            session.subscribe(stream);
+        }
+    }
+  }
+  function streamCreatedHandler(event) {
+    subscribeToStreams(event.streams);
+  }
+ 
+  var publisher = TB.initPublisher(apiKey);
+  var session   = TB.initSession(sessionId);
+ 
+  session.connect(apiKey, token);
+  session.addEventListener("sessionConnected", 
+                           sessionConnectedHandler);
+ 
+  session.addEventListener("streamCreated", 
+                           streamCreatedHandler);
+</script>
